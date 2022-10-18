@@ -1,10 +1,25 @@
 package fish
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type Fish struct {
 	fin     Fin
 	species Species
+}
+
+func FishFromString(s string) Fish {
+	parts := strings.Split(s, " ")
+	if len(parts) != 2 {
+		return Fish{}
+	}
+
+	return Fish {
+		fin: GetFin(parts[0]),
+		species: GetSpecies(parts[1]),
+	}
 }
 
 func (f Fish) Name() string {
@@ -16,6 +31,10 @@ func (f Fish) Breed(other Fish) Fish {
 		fin:     f.fin.Breed(other.fin),
 		species: f.species.Breed(other.species),
 	}
+}
+
+func (f Fish) GetPossibleParents() []Fish {
+	return []Fish{f}
 }
 
 func GetPossibleFish(fish []Fish) []Fish {
