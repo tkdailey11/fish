@@ -354,16 +354,17 @@ func (f Fin) GetPossibleParentsFins() set.Set[FinParent] {
 		parents.Add(FinParent{Parent1: 1, Parent2: 1})
 		parents.Add(FinParent{Parent1: 1, Parent2: 1})
 		return royal
-	case rusty, bluetip | crimson, bluetip | sapphire, crimson | greenfin, greenfin | tangerine, orange | rusty, orange | tangerine, sapphire | spined, spined | striped:
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		return rusty
+	case rusty:
+		parents.Add(FinParent{Parent1: rusty, Parent2: rusty})
+		parents.Add(FinParent{Parent1: bluetip, Parent2: crimson})
+		parents.Add(FinParent{Parent1: bluetip, Parent2: sapphire})
+		parents.Add(FinParent{Parent1: crimson, Parent2: greenfin})
+		parents.Add(FinParent{Parent1: greenfin, Parent2: tangerine})
+		parents.Add(FinParent{Parent1: orange, Parent2: rusty})
+		parents.Add(FinParent{Parent1: orange, Parent2: tangerine})
+		parents.Add(FinParent{Parent1: sapphire, Parent2: spined})
+		parents.Add(FinParent{Parent1: spined, Parent2: striped})
+		break
 	case sapphire, bluetip | canary, bluetip | razorback, canary | greenfin, crimson | sapphire, crimson | striped, greenfin | oriental, orange | oriental, orange | royal, pink | rusty, pink | tangerine, razorback | spined, royal | rusty, snubbed | spined, striped | tangerine:
 		parents.Add(FinParent{Parent1: 1, Parent2: 1})
 		parents.Add(FinParent{Parent1: 1, Parent2: 1})
@@ -411,19 +412,22 @@ func (f Fin) GetPossibleParentsFins() set.Set[FinParent] {
 		parents.Add(FinParent{Parent1: 1, Parent2: 1})
 		parents.Add(FinParent{Parent1: 1, Parent2: 1})
 		return striped
-	case tangerine, bluetip | pink, bluetip | striped, crimson | orange, crimson | rusty, greenfin | sapphire, greenfin | striped, pink | spined, royal | spined, rusty | tangerine:
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		return tangerine
+	case tangerine:
+		parents.Add(FinParent{Parent1: tangerine, Parent2: tangerine})
+		parents.Add(FinParent{Parent1: bluetip, Parent2: pink})
+		parents.Add(FinParent{Parent1: bluetip, Parent2: striped})
+		parents.Add(FinParent{Parent1: crimson, Parent2: orange})
+		parents.Add(FinParent{Parent1: crimson, Parent2: rusty})
+		parents.Add(FinParent{Parent1: greenfin, Parent2: sapphire})
+		parents.Add(FinParent{Parent1: greenfin, Parent2: striped})
+		parents.Add(FinParent{Parent1: pink, Parent2: spined})
+		parents.Add(FinParent{Parent1: royal, Parent2: spined})
+		parents.Add(FinParent{Parent1: rusty, Parent2: tangerine})
+		break
 	default:
-		return 0
+		break
 	}
+
 	return parents
 }
 
