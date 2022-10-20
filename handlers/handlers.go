@@ -21,8 +21,8 @@ func (h *Handlers) PossibleOffspring(w http.ResponseWriter, r *http.Request) {
 	var fishListStr []string
 	err := json.NewDecoder(r.Body).Decode(&fishListStr)
 	if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	var fishList set.Set[fish.Fish]
@@ -88,8 +88,8 @@ func (h *Handlers) PossibleParentsFins(w http.ResponseWriter, r *http.Request) {
 	var offspring fish.Fin
 	err := json.NewDecoder(r.Body).Decode(&offspring)
 	if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	finsList, err := offspring.GetPossibleParentsFins().MarshalJSON()
@@ -139,3 +139,23 @@ func (h *Handlers) PossibleParentsSpecies(w http.ResponseWriter, r *http.Request
 
 	fmt.Fprintf(w, "%s", string(speciesList))
 }
+
+func (h *Handlers) PossibleFins(w http.ResponseWriter, r *http.Request) {
+	var finListStr []string
+	err := json.NewDecoder(r.Body).Decode(&finListStr)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	fins := make([]fish.Fin, len(finListStr))
+	for i, f := range finListStr {
+		fins[i] = fish.GetFin(f)
+	}
+
+	possibleFins := fish.GetPossibleFinStrings(fins)
+
+	fmt.Fprintf(w, "Fins: %v", possibleFins)
+}
+
+func (h *Handlers) PossibleSpecies(w http.ResponseWriter, r *http.Request) {}
