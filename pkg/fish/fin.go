@@ -250,14 +250,18 @@ func (f Fin) GetPossibleParentsFins() set.Set[FinParent] {
 		parents.Add(FinParent{Parent1: rusty, Parent2: striped})
 		parents.Add(FinParent{Parent1: sapphire, Parent2: tangerine})
 		break
-	case daffodil, canary | hooked, canary | silky, daffodil | serrated, hooked | razorback, imperial | serrated, imperial | snubbed, oriental | silky, peachy | razorback, peachy | snubbed:
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		parents.Add(FinParent{Parent1: 1, Parent2: 1})
-		return daffodil
+	case daffodil:
+		parents.Add(FinParent{Parent1: daffodil, Parent2: daffodil})
+		parents.Add(FinParent{Parent1: canary, Parent2: hooked})
+		parents.Add(FinParent{Parent1: canary, Parent2: silky})
+		parents.Add(FinParent{Parent1: daffodil, Parent2: serrated})
+		parents.Add(FinParent{Parent1: hooked, Parent2: razorback})
+		parents.Add(FinParent{Parent1: imperial, Parent2: serrated})
+		parents.Add(FinParent{Parent1: imperial, Parent2: snubbed})
+		parents.Add(FinParent{Parent1: oriental, Parent2: silky})
+		parents.Add(FinParent{Parent1: peachy, Parent2: razorback})
+		parents.Add(FinParent{Parent1: peachy, Parent2: snubbed})
+		break
 	case greenfin:
 		parents.Add(FinParent{Parent1: greenfin, Parent2: greenfin})
 		parents.Add(FinParent{Parent1: bluetip, Parent2: greenfin})
@@ -265,40 +269,157 @@ func (f Fin) GetPossibleParentsFins() set.Set[FinParent] {
 		parents.Add(FinParent{Parent1: orange, Parent2: spined})
 		parents.Add(FinParent{Parent1: rusty, Parent2: spined})
 		break
-	case hooked, hooked | peachy, imperial | silky, peachy | silky:
-		return hooked
-	case imperial, daffodil | imperial, daffodil | peachy, hooked | serrated, hooked | snubbed, peachy | serrated, razorback | silky, silky | snubbed:
-		return imperial
-	case orange, bluetip | rusty, bluetip | tangerine, crimson | spined, greenfin | orange, greenfin | rusty, spined | tangerine:
-		return orange
-	case oriental, bluetip | silky, canary | pink, canary | royal, crimson | daffodil, crimson | serrated, daffodil | tangerine, greenfin | hooked, greenfin | silky, hooked | orange, imperial | rusty, imperial | tangerine, orange | peachy, oriental | royal, peachy | rusty, pink | razorback, razorback | striped, sapphire | serrated, sapphire | snubbed, snubbed | striped:
-		return oriental
-	case peachy, daffodil | hooked, daffodil | silky, hooked | imperial, imperial | peachy, serrated | silky:
-		return peachy
+	case hooked:
+		parents.Add(FinParent{Parent1: hooked, Parent2: hooked})
+		parents.Add(FinParent{Parent1: hooked, Parent2: peachy})
+		parents.Add(FinParent{Parent1: imperial, Parent2: silky})
+		parents.Add(FinParent{Parent1: peachy, Parent2: silky})
+		break
+	case imperial:
+		parents.Add(FinParent{Parent1: imperial, Parent2: imperial})
+		parents.Add(FinParent{Parent1: daffodil, Parent2: imperial})
+		parents.Add(FinParent{Parent1: daffodil, Parent2: peachy})
+		parents.Add(FinParent{Parent1: hooked, Parent2: serrated})
+		parents.Add(FinParent{Parent1: hooked, Parent2: snubbed})
+		parents.Add(FinParent{Parent1: peachy, Parent2: serrated})
+		parents.Add(FinParent{Parent1: razorback, Parent2: silky})
+		parents.Add(FinParent{Parent1: silky, Parent2: snubbed})
+		break
+	case orange:
+		parents.Add(FinParent{Parent1: orange, Parent2: orange})
+		parents.Add(FinParent{Parent1: bluetip, Parent2: rusty})
+		parents.Add(FinParent{Parent1: bluetip, Parent2: tangerine})
+		parents.Add(FinParent{Parent1: crimson, Parent2: spined})
+		parents.Add(FinParent{Parent1: greenfin, Parent2: orange})
+		parents.Add(FinParent{Parent1: greenfin, Parent2: rusty})
+		parents.Add(FinParent{Parent1: spined, Parent2: tangerine})
+		break
+	case oriental:
+		parents.Add(FinParent{Parent1: oriental, Parent2: oriental})
+		parents.Add(FinParent{Parent1: bluetip, Parent2: silky})
+		parents.Add(FinParent{Parent1: canary, Parent2: pink})
+		parents.Add(FinParent{Parent1: canary, Parent2: royal})
+		parents.Add(FinParent{Parent1: crimson, Parent2: daffodil})
+		parents.Add(FinParent{Parent1: crimson, Parent2: serrated})
+		parents.Add(FinParent{Parent1: daffodil, Parent2: tangerine})
+		parents.Add(FinParent{Parent1: greenfin, Parent2: hooked})
+		parents.Add(FinParent{Parent1: greenfin, Parent2: silky})
+		parents.Add(FinParent{Parent1: hooked, Parent2: orange})
+		parents.Add(FinParent{Parent1: imperial, Parent2: rusty})
+		parents.Add(FinParent{Parent1: imperial, Parent2: tangerine})
+		parents.Add(FinParent{Parent1: orange, Parent2: peachy})
+		parents.Add(FinParent{Parent1: oriental, Parent2: royal})
+		parents.Add(FinParent{Parent1: peachy, Parent2: rusty})
+		parents.Add(FinParent{Parent1: pink, Parent2: razorback})
+		parents.Add(FinParent{Parent1: razorback, Parent2: striped})
+		parents.Add(FinParent{Parent1: sapphire, Parent2: serrated})
+		parents.Add(FinParent{Parent1: sapphire, Parent2: snubbed})
+		parents.Add(FinParent{Parent1: snubbed, Parent2: striped})
+		break
+	case peachy:
+		parents.Add(FinParent{Parent1: peachy, Parent2: peachy})
+		parents.Add(FinParent{Parent1: daffodil, Parent2: hooked})
+		parents.Add(FinParent{Parent1: daffodil, Parent2: silky})
+		parents.Add(FinParent{Parent1: hooked, Parent2: imperial})
+		parents.Add(FinParent{Parent1: imperial, Parent2: peachy})
+		parents.Add(FinParent{Parent1: serrated, Parent2: silky})
+		break
 	case pink, bluetip | daffodil, canary | crimson, canary | tangerine, crimson | oriental, daffodil | greenfin, imperial | spined, orange | serrated, orange | snubbed, oriental | sapphire, peachy | spined, pink | striped, razorback | rusty, razorback | tangerine, royal | sapphire, royal | striped, rusty | snubbed:
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
 		return pink
 	case razorback, canary | razorback, canary | snubbed, crimson | hooked, crimson | silky, daffodil | pink, daffodil | royal, hooked | sapphire, imperial | pink, imperial | striped, oriental | serrated, oriental | snubbed, peachy | sapphire, peachy | striped, royal | serrated, silky | tangerine:
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
 		return razorback
 	case royal, bluetip | hooked, bluetip | peachy, canary | sapphire, canary | striped, crimson | razorback, crimson | snubbed, daffodil | orange, daffodil | rusty, greenfin | imperial, greenfin | peachy, hooked | spined, imperial | orange, oriental | pink, oriental | striped, pink | royal, razorback | sapphire, rusty | serrated, serrated | tangerine, silky | spined, snubbed | tangerine:
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
 		return royal
 	case rusty, bluetip | crimson, bluetip | sapphire, crimson | greenfin, greenfin | tangerine, orange | rusty, orange | tangerine, sapphire | spined, spined | striped:
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
 		return rusty
 	case sapphire, bluetip | canary, bluetip | razorback, canary | greenfin, crimson | sapphire, crimson | striped, greenfin | oriental, orange | oriental, orange | royal, pink | rusty, pink | tangerine, razorback | spined, royal | rusty, snubbed | spined, striped | tangerine:
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
 		return sapphire
 	case serrated, canary | imperial, canary | peachy, daffodil | razorback, daffodil | snubbed, hooked | oriental, hooked | royal, imperial | razorback, oriental | peachy, pink | silky, royal | silky, serrated | snubbed:
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
 		return serrated
 	case silky:
 		parents.Add(FinParent{Parent1: silky, Parent2: silky})
 		parents.Add(FinParent{Parent1: hooked, Parent2: silky})
 		break
 	case snubbed, canary | daffodil, canary | serrated, daffodil | oriental, hooked | pink, hooked | striped, imperial | oriental, imperial | royal, peachy | pink, peachy | royal, razorback | serrated, razorback | snubbed, sapphire | silky, silky | striped:
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
 		return snubbed
 	case spined:
 		parents.Add(FinParent{Parent1: spined, Parent2: spined})
 		break
 	case striped, bluetip | imperial, bluetip | serrated, bluetip | snubbed, canary | orange, canary | rusty, crimson | pink, crimson | royal, daffodil | spined, greenfin | razorback, greenfin | serrated, greenfin | snubbed, orange | razorback, oriental | rusty, oriental | tangerine, pink | sapphire, royal | tangerine, sapphire | striped, serrated | spined:
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
 		return striped
 	case tangerine, bluetip | pink, bluetip | striped, crimson | orange, crimson | rusty, greenfin | sapphire, greenfin | striped, pink | spined, royal | spined, rusty | tangerine:
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
+		parents.Add(FinParent{Parent1: 1, Parent2: 1})
 		return tangerine
 	default:
 		return 0
