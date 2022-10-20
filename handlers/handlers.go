@@ -4,7 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strings"
+
+	set "github.com/deckarep/golang-set/v2"
 
 	"github.com/tkdailey11/fish/pkg/fish"
 )
@@ -24,43 +25,117 @@ func (h *Handlers) PossibleOffspring(w http.ResponseWriter, r *http.Request) {
 			return
 	}
 
-	var fishList []fish.Fish
+	var fishList set.Set[fish.Fish]
 	for _, str := range fishListStr {
-		fishList = append(fishList, fish.FishFromString(str))
+		fishList.Add(fish.FishFromString(str))
 	}
 
-	allPossible := fish.GetPossibleFish(fishList)
-
-	result := "["
-
-	for _, possible := range allPossible {
-		result = fmt.Sprintf("%s\"%s\",", result, possible.Name())
+	allPossible, err := fish.GetPossibleOffspring(fishList).MarshalJSON()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 
-	result = strings.TrimSuffix(result, ",")
-	result = result + "]"
-
-	fmt.Fprintf(w, "%s", result)
+	fmt.Fprintf(w, "%s", string(allPossible))
 }
 
 func (h *Handlers) PossibleParents(w http.ResponseWriter, r *http.Request) {
-	var offspring fish.Fish
+	var offspring string
 	err := json.NewDecoder(r.Body).Decode(&offspring)
 	if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 	}
 
-	fishList := offspring.GetPossibleParents()
 
-	result := "["
+	babyFish := fish.FishFromString(offspring)
+	parents := babyFish.GetPossibleParents()
 
-	for _, f := range fishList {
-		result = fmt.Sprintf("%s\"%s\",", result, f.Name())
+	fmt.Fprintf(w, "%d %s", parents.Cardinality(), parents.String())
+
+	// fishList, err := babyFish.GetPossibleParents().MarshalJSON()
+	// if err != nil {
+	// 	http.Error(w, err.Error(), http.StatusBadRequest)
+	// 	return
+	// }
+
+	// fmt.Fprintf(w, "%s", string(fishList))
+}
+
+func (h *Handlers) PossibleOffspringFins(w http.ResponseWriter, r *http.Request) {
+	var finsListStr []string
+	err := json.NewDecoder(r.Body).Decode(&finsListStr)
+	if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
 	}
 
-	result = strings.TrimSuffix(result, ",")
-	result = result + "]"
+	var finsList set.Set[fish.Fin]
+	for _, str := range finsListStr {
+		finsList.Add(fish.GetFin(str))
+	}
 
-	fmt.Fprintf(w, "%s", result)
+	allPossible, err := fish.GetPossibleOffspringFins(finsList).MarshalJSON()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	fmt.Fprintf(w, "%s", string(allPossible))
+}
+
+func (h *Handlers) PossibleParentsFins(w http.ResponseWriter, r *http.Request) {
+	var offspring fish.Fin
+	err := json.NewDecoder(r.Body).Decode(&offspring)
+	if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+	}
+
+	finsList, err := offspring.GetPossibleParentsFins().MarshalJSON()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	fmt.Fprintf(w, "%s", string(finsList))
+}
+
+func (h *Handlers) PossibleOffspringSpecies(w http.ResponseWriter, r *http.Request) {
+	var speciesListStr []string
+	err := json.NewDecoder(r.Body).Decode(&speciesListStr)
+	if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+	}
+
+	var speciesList set.Set[fish.Species]
+	for _, str := range speciesListStr {
+		speciesList.Add(fish.GetSpecies(str))
+	}
+
+	allPossible, err := fish.GetPossibleOffspringSpecies(speciesList).MarshalJSON()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	fmt.Fprintf(w, "%s", string(allPossible))
+}
+
+func (h *Handlers) PossibleParentsSpecies(w http.ResponseWriter, r *http.Request) {
+	var offspring fish.Species
+	err := json.NewDecoder(r.Body).Decode(&offspring)
+	if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+	}
+
+	speciesList, err := offspring.GetPossibleParentsSpecies().MarshalJSON()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	fmt.Fprintf(w, "%s", string(speciesList))
 }

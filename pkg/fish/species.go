@@ -1,6 +1,29 @@
 package fish
 
+import (
+	"encoding/json"
+	"strings"
+
+	set "github.com/deckarep/golang-set/v2"
+)
+
 type Species int
+
+func (s *Species) UnmarshalJSON(b []byte) error {
+	var str string
+	if err := json.Unmarshal(b, &str); err != nil {
+		return err
+	}
+
+	sTemp := GetSpecies(str)
+	s = &sTemp
+
+	return nil
+}
+
+func (s Species) MarshalJSON() ([]byte, error) {
+	return json.Marshal(s.Name())
+}
 
 const (
 	angelfish  Species = 0b000000000000000000001
@@ -27,7 +50,7 @@ const (
 	unknownS   Species = 0
 )
 
-func (s Species) GetName() string {
+func (s Species) Name() string {
 	switch s.GetBase() {
 	case angelfish:
 		return "Angelfish"
@@ -77,48 +100,48 @@ func (s Species) GetName() string {
 }
 
 func GetSpecies(name string) Species {
-	switch name {
-	case "Angelfish":
+	switch strings.ToLower(name) {
+	case "angelfish":
 		return angelfish
-	case "Arrowfish":
+	case "arrowfish":
 		return arrowfish
-	case "Betta":
+	case "betta":
 		return betta
-	case "Carp":
+	case "carp":
 		return carp
-	case "Catfish":
+	case "catfish":
 		return catfish
-	case "Comet":
+	case "comet":
 		return comet
-	case "Fatfish":
+	case "fatfish":
 		return fatfish
-	case "Flashfish":
+	case "flashfish":
 		return flashfish
-	case "Foxface":
+	case "foxface":
 		return foxface
-	case "Goldfish":
+	case "goldfish":
 		return goldfish
-	case "Goldshark":
+	case "goldshark":
 		return goldshark
-	case "Leaffish":
+	case "leaffish":
 		return leaffish
-	case "Pufferfish":
+	case "pufferfish":
 		return pufferfish
-	case "Pygmy":
+	case "pygmy":
 		return pygmy
-	case "Rainbow":
+	case "rainbow":
 		return rainbow
-	case "Shark":
+	case "shark":
 		return shark
-	case "Snooper":
+	case "snooper":
 		return snooper
-	case "Snout":
+	case "snout":
 		return snout
-	case "Spotanus":
+	case "spotanus":
 		return spotanus
-	case "Stickfish":
+	case "stickfish":
 		return stickfish
-	case "Tigerfish":
+	case "tigerfish":
 		return tigerfish
 	default:
 		return unknownS
@@ -177,4 +200,21 @@ func (s Species) GetBase() Species {
 	default:
 		return 0
 	}
+}
+
+func (s Species) GetPossibleParentsSpecies() set.Set[Species] {
+	return set.NewSet[Species]()
+}
+
+func GetPossibleOffspringSpecies(species set.Set[Species]) set.Set[Species] {
+	var possibleSpecies set.Set[Species]
+	slc := species.ToSlice()
+	for i := 0; i < len(slc)-1; i++ {
+		s1 := slc[i]
+		for j := i + 1; j < len(slc); j++ {
+			s2 := slc[j]
+			possibleSpecies.Add(s1.Breed(s2))
+		}
+	}
+	return possibleSpecies
 }
